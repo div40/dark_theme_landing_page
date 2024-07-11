@@ -1,4 +1,5 @@
 import { Banner } from "@/components/Banner";
+import { CTA } from "@/components/CTA";
 import { FAQ } from "@/components/FAQ";
 import { Features } from "@/components/Features";
 import { Hero } from "@/components/Hero";
@@ -8,7 +9,7 @@ import { ProductShowcase } from "@/components/ProductShowcase";
 
 export default function Home() {
   return (
-    <div>
+    <>
       <Banner />
       <Navbar />
       <Hero />
@@ -16,6 +17,7 @@ export default function Home() {
       <Features />
       <ProductShowcase />
       <FAQ />
-    </div>
+      <CTA />
+    </>
   );
 }
