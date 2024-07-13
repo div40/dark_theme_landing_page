@@ -63,7 +63,7 @@ export const Hero = () => {
         <div className="flex justify-center">
           <p className="text-center text-xl mt-8 max-w-md">
             Say goodbye to ugly todos. We are a next generation task management
-            app.It's intuitive, visually stunning, and engineered from the
+            app.It&apos;s intuitive, visually stunning, and engineered from the
             ground up to boost your productivity.
           </p>
         </div>
