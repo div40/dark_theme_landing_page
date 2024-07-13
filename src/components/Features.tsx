@@ -1,4 +1,7 @@
+"use client";
+import { useEffect, useRef } from "react";
 import EcosystemIcon from "../assets/icons/ecosystem.svg";
+import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 
 const features = [
   {
@@ -34,19 +37,55 @@ export const Features = () => {
         </div>
         <div className="mt-16 flex flex-col sm:flex-row gap-4">
           {features.map(({ title, description }) => (
-            <div
-              key={title}
-              className="border border-white/30 px-5 py-10 text-center rounded-xl sm:flex-1"
-            >
-              <div className="inline-flex h-14 w-14 bg-white text-black justify-center items-center rounded-lg">
-                <EcosystemIcon />
-              </div>
-              <h3 className="mt-6 font-bold">{title}</h3>
-              <p className="mt-2 text-white/70">{description}</p>
-            </div>
+            <Feature title={title} description={description} key={title} />
           ))}
         </div>
       </div>
+    </div>
+  );
+};
+
+const Feature = ({
+  title,
+  description,
+}: {
+  title: string;
+  description: string;
+}) => {
+  const offsetX = useMotionValue(-100);
+  const offsetY = useMotionValue(-100);
+  const maskImage = useMotionTemplate`radial-gradient(100px 100px at ${offsetX}px ${offsetY}px, black, transparent)`;
+  const border = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const updateMousePosition = (e: MouseEvent) => {
+      if (!border.current) return;
+      const borderPosition = border.current?.getBoundingClientRect();
+      offsetX.set(e.x - borderPosition.x);
+      offsetY.set(e.y - borderPosition.y);
+    };
+    window.addEventListener("mousemove", updateMousePosition);
+    return () => {
+      window.removeEventListener("mousemove", updateMousePosition);
+    };
+  }, []);
+  return (
+    <div
+      key={title}
+      className="relative border border-white/30 px-5 py-10 text-center rounded-xl sm:flex-1"
+    >
+      <motion.div
+        ref={border}
+        className="absolute inset-0 border-2 border-purple-400 rounded-xl"
+        style={{
+          maskImage: maskImage,
+          WebkitMaskImage: maskImage,
+        }}
+      ></motion.div>
+      <div className="inline-flex h-14 w-14 bg-white text-black justify-center items-center rounded-lg">
+        <EcosystemIcon />
+      </div>
+      <h3 className="mt-6 font-bold">{title}</h3>
+      <p className="mt-2 text-white/70">{description}</p>
     </div>
   );
 };
